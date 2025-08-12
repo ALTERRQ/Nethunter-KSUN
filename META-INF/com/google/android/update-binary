@@ -1,6 +1,10 @@
 #!/sbin/sh
 ## Kali NetHunter installer
 ##
+## Detect bootmode
+##   BOOTMODE=true  = Device has booted into system (NetHunter installed as KernelSU module)
+##   BOOTMODE=false = Device has booted into recovery (NetHunter installed through TWRP)
+##
 ## Apps
 ##   NetHunter.apk
 ##     https://gitlab.com/kalilinux/nethunter/apps/kali-nethunter-app
@@ -80,12 +84,12 @@ print "#  88       Y8b d8'          '8b 888888888 88  #"
 print "#                                              #"
 print "###  ############# NetHunter ###################"
 print ""
-print "* NetHunter (KernelSU)"        # Skipping indent formatting
+
+print "* NetHunter (KernelSU)"
 debug "Debug Mode: Enabled"
 print ""
 
-mount /data || true # May fail, if we don't have /etc/fstab
-
+if $BOOTMODE; then
   #####################################################
   ## Install in KernelSU                             ##
   ##   ./scripts/util_functions.sh: install_module() ##
@@ -108,18 +112,17 @@ mount /data || true # May fail, if we don't have /etc/fstab
     done
   }
 
-  umask 022
-
   ## Make setup_flashable() happy
-  OUTFD=${OUTFD:- $2} # May already be defined ($ adb shell 'su -c magisk --install-module [...]')
+  OUTFD=${OUTFD:- $2} # May already be defined 
 
   print "* Unpacking script"
   extract_file "$ZIPFILE" META-INF/com/google/android/update-kernelsu $TMP
   #print "* Script unpacked"
 
+
   ## Default permissions
   set_perm_recursive $TMP 0 0 0755 0644
-  ## Run Magisk script (aka what would load customization script - ./nethunter/customize.sh)
+  ## Run KernelSU script (aka what would load customization script - ./nethunter/customize.sh)
   [ -f $TMP/META-INF/com/google/android/update-kernelsu ] && source $TMP/META-INF/com/google/android/update-kernelsu    # Don't spawn a new session (aka using sh), do in current session (able to pass variables/functions)
 
 print ""
