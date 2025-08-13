@@ -1,11 +1,5 @@
-## [Magisk] [nethunter] [This is sourced, not a standalone script]
-## Kali NetHunter installation script for Magisk
-##
-## REF: https://topjohnwu.github.io/Magisk/guides.html
-##      https://github.com/topjohnwu/Magisk/blob/master/scripts/update_binary.sh
-##      https://github.com/topjohnwu/Magisk/blob/master/scripts/util_functions.sh
-##
-## Troubleshoot: Save log via Magisk && $ adb shell 'cat /sdcard/Download/magisk_install_log_*.log; rm /sdcard/Download/magisk_install_log_*.log'
+## [KernelSU] [nethunter] [This is sourced, not a standalone script]
+## Kali NetHunter installation script for KernelSU
 
 symlink() {
   ln -sf "$1" "$2" 2>/dev/null

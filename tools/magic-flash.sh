@@ -1,5 +1,5 @@
 #!/system/bin/sh
-## [Magisk] [nethunter] [This is standalone script, not sourced]
+## [KernelSU] [nethunter] [This is standalone script, not sourced]
 ## Flash without custom recoveries
 ##
 ## CREDITS to HuskyDG
