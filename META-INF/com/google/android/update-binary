@@ -1,10 +1,6 @@
 #!/sbin/sh
 ## Kali NetHunter installer
 ##
-## Detect bootmode
-##   BOOTMODE=true  = Device has booted into system (NetHunter installed as Magisk module)
-##   BOOTMODE=false = Device has booted into recovery (NetHunter installed through TWRP)
-##
 ## Apps
 ##   NetHunter.apk
 ##     https://gitlab.com/kalilinux/nethunter/apps/kali-nethunter-app
@@ -27,17 +23,9 @@
 
 #------------------------------------------------------------------------------
 
-# Magisk - echo     (really, any output on stdout, not stderr)
-# TWRP   - ui_print (If not prefix with ui_print, will not work - multilines may not work)
+# KernelSU - echo     (really, any output on stdout, not stderr)
 print() {
-  if $BOOTMODE; then
     echo "${1}"
-  else
-    echo "${1:- }" \
-      | while IFS='' read -r line; do
-         echo -e "ui_print $1\nui_print" >> $console
-      done
-  fi
 }
 
 debug() {
@@ -61,12 +49,6 @@ extract_file() {
 }
 
 #------------------------------------------------------------------------------
-
-#<REF: ./scripts/util_functions.sh>
-[ -z $BOOTMODE ] && ps | grep zygote | grep -qv grep && BOOTMODE=true
-[ -z $BOOTMODE ] && ps -A 2>/dev/null | grep zygote | grep -qv grep && BOOTMODE=true
-[ -z $BOOTMODE ] && BOOTMODE=false
-#</REF: ./scripts/util_functions.sh>
 
 if [ "$3" ]; then
   ZIPFILE=$3
@@ -98,19 +80,14 @@ print "#  88       Y8b d8'          '8b 888888888 88  #"
 print "#                                              #"
 print "###  ############# NetHunter ###################"
 print ""
-if $BOOTMODE; then
-print "* NetHunter (Magisk)"        # Skipping indent formatting
-else
-print "* NetHunter (Recovery/TWRP)" # Skipping indent formatting
-fi
+print "* NetHunter (KernelSU)"        # Skipping indent formatting
 debug "Debug Mode: Enabled"
 print ""
 
 mount /data || true # May fail, if we don't have /etc/fstab
 
-if $BOOTMODE; then
   #####################################################
-  ## Install in Magisk                               ##
+  ## Install in KernelSU                             ##
   ##   ./scripts/util_functions.sh: install_module() ##
   #####################################################
   set_perm() {
@@ -155,18 +132,7 @@ if $BOOTMODE; then
   ## Default permissions
   set_perm_recursive $TMP 0 0 0755 0644
   ## Run Magisk script (aka what would load customization script - ./nethunter/customize.sh)
-  [ -f $TMP/META-INF/com/google/android/update-magisk ] && source $TMP/META-INF/com/google/android/update-magisk    # Don't spawn a new session (aka using sh), do in current session (able to pass variables/functions)
-else
-  #####################################################
-  ## Install in recovery/TWRP                        ##
-  #####################################################
-  ## Unpack the ZIP (everything but "kalifs-*")
-  print "* Unpacking ZIP"
-  extract "$ZIPFILE" "$TMP" "kalifs-*"
-  #print "* ZIP unpacked"
-
-  [ -f $TMP/META-INF/com/google/android/update-recovery ] && source $TMP/META-INF/com/google/android/update-recovery   # Don't spawn a new session (aka using sh), do in current session (able to pass variables/functions)
-fi
+  [ -f $TMP/META-INF/com/google/android/update-kernelsu ] && source $TMP/META-INF/com/google/android/update-kernelsu    # Don't spawn a new session (aka using sh), do in current session (able to pass variables/functions)
 
 print ""
 print "################################################"
