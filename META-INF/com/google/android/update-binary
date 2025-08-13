@@ -114,7 +114,7 @@ mount /data || true # May fail, if we don't have /etc/fstab
   OUTFD=${OUTFD:- $2} # May already be defined ($ adb shell 'su -c magisk --install-module [...]')
 
   print "* Unpacking script"
-  extract_file "$ZIPFILE" META-INF/com/google/android/update-magisk $TMP
+  extract_file "$ZIPFILE" META-INF/com/google/android/update-kernelsu $TMP
   #print "* Script unpacked"
 
   ## Default permissions
