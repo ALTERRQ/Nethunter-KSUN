@@ -3,7 +3,7 @@
 ##
 ## Detect bootmode
 ##   BOOTMODE=true  = Device has booted into system (NetHunter installed as KernelSU module)
-##   BOOTMODE=false = Device has booted into recovery (NetHunter installed through TWRP)
+##   BOOTMODE=false = Device has booted into recovery (Not supported)
 ##
 ## Apps
 ##   NetHunter.apk
@@ -135,3 +135,9 @@ print "#  NetHunter Store before RUNNING it to finish #"
 print "#            setting everything up!            #"
 print "################################################"
 print ""
+
+else
+  print "Recovery detected, abort!"
+  print "Please use KernelSU manager for installation!"
+  exit1
+fi
