@@ -187,26 +187,17 @@ pm uninstall com.offsec.nethunter.kex &>/dev/null || true
 pm uninstall com.offsec.nhterm &>/dev/null || true
 pm uninstall com.offsec.nethunter.store &>/dev/null || true
 
-## Remove Osmosis BusyBox module
-[ -d /data/adb/modules/busybox-ndk ] && {
-  ## Follow Magisk way to disable and remove modules
-  touch /data/adb/modules/busybox-ndk/disable
-  touch /data/adb/modules/busybox-ndk/remove
-}
+## List of modules to remove
+RMODULES=("wirelessFirmware" "wireless-firmware" "nano-ndk" "busybox-ndk")
 
-## Remove Wi-Fi firmware modules
-[ -d /data/adb/modules/wirelessFirmware ] && {
-  ## Follow Magisk way to disable and remove modules
-  touch /data/adb/modules/wirelessFirmware/disable
-  touch /data/adb/modules/wirelessFirmware/remove
-}
-
-## Remove nano modules
-[ -d /data/adb/modules/nano-ndk ] && {
-  ## Follow Magisk way to disable and remove modules
-  touch /data/adb/modules/nano-ndk/disable
-  touch /data/adb/modules/nano-ndk/remove
-}
+## Remove each module
+for RMODULE in "${RMODULES[@]}"; do
+  [ -d /data/adb/modules/"$RMODULE" ] && {
+    touch /data/adb/modules/"$RMODULE"/disable
+    touch /data/adb/modules/"$RMODULE"/remove
+    ui_print "Removing module: $RMODULE"
+  }
+done
 
 #------------------------------------------------------------------------------
 
