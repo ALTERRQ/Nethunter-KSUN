@@ -261,10 +261,10 @@ print "* Done installing BusyBox"
   set_perm_recursive "$ETC/terminfo" 0 0 0755 0644
 }
 
-[ -d $TMP/boot-patcher/system/etc/firmware ] && {
+[ -d $TMP/system/etc/firmware ] && {
   ui_print "* Copying Wi-Fi firmwares to /system/etc/firmware"
   mkdir -p $ETC
-  cp -r "$TMP/boot-patcher/system/etc/firmware" "$ETC/"
+  cp -r "$TMP/system/etc/firmware" "$ETC/"
   set_perm_recursive "$ETC/firmware" 0 0 0755 0644
 }
 
@@ -286,9 +286,9 @@ print "* Done installing BusyBox"
   set_perm_recursive "$BIN" 0 0 0755 0755
 }
 
-[ -d $TMP/boot-patcher/system/xbin ] && {
+[ -d $TMP/system/xbin ] && {
   ui_print "* Installing hid-keyboard to /system/xbin"
-  cp -r $TMP/boot-patcher/system/xbin/* "$XBIN/"
+  cp -r $TMP/system/xbin/* "$XBIN/"
   set_perm_recursive "$XBIN" 0 0 0755 0755
 }
 
