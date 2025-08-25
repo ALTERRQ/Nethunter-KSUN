@@ -255,13 +255,6 @@ print "* Done installing BusyBox"
 
 #------------------------------------------------------------------------------
 
-## Install NetHunter boot animation
-[ -f $TMP/system/media/bootanimation.zip ] && {
-  ui_print "* Installing Kali NetHunter boot animation"
-  mkdir -p $MEDIA
-  cp $TMP/system/media/bootanimation.zip $MEDIA
-}
-
 ## Install required firmwares, binaries, lib files for Kali NetHunter
 [ -d $TMP/system/etc/nano ] && {
   ui_print "* Copying nano highlights to /system/etc/nano"
