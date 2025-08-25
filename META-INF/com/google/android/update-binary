@@ -139,5 +139,5 @@ print ""
 else
   print "Recovery detected, abort!"
   print "Please use KernelSU manager for installation!"
-  exit1
+  abort
 fi
